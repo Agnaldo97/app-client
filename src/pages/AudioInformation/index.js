@@ -3,7 +3,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import MainImage from '../../assets/audioInformation.png';
 
-import { TButton, Container, Wrappe, Title } from './styles';
+import { Container, Wrappe, Title, TButton } from './styles';
 
 export default function AudioInformation({ navigation }) {
     return (

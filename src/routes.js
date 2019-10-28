@@ -1,5 +1,4 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-// import { createStackNavigator } from 'react-navigation-stack';
 
 import Main from './pages/Main';
 import AudioInformation from './pages/AudioInformation';
@@ -10,11 +9,11 @@ import Hospital from './pages/Hospital';
 const Routes = createAppContainer(
     createSwitchNavigator(
         {
-            Hospital,
             Main,
             AudioInformation,
             CPF,
             RecordAudio,
+            Hospital,
         },
         {
             headerLayoutPreset: 'center',

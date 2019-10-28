@@ -8,7 +8,7 @@ export const Wrappe = styled.View`
     flex: 1;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 15px 10px;
 `;
 
 export const Title = styled.Text`

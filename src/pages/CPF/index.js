@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { TButton, Container, Wrappe, Title, InputCpf } from './styles';
+import { Container, Wrappe, Title, TButton, InputCpf } from './styles';
 
 export default function AudioInformation({ navigation }) {
     const [cpf, setCpf] = useState('');

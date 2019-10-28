@@ -7,9 +7,9 @@ export const Container = styled(Background)``;
 
 export const Wrappe = styled.View`
     flex: 1;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 10px;
+    padding: 15px 10px;
 `;
 
 export const Title = styled.Text`
@@ -39,6 +39,8 @@ export const ViewMicrophone = styled.View`
     top: 120px;
 `;
 
+export const IconMicrophone = styled(Icon)``;
+
 export const ViewStop = styled.View`
     background: #fff;
     border-radius: 50px;
@@ -56,8 +58,7 @@ export const Stop = styled.View`
     /* justify-self: center; */
 `;
 
-export const IconMicrophone = styled(Icon)``;
-
 export const TButton = styled(Button)`
     width: 100%;
+    margin-bottom: 40px;
 `;

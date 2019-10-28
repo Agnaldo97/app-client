@@ -3,26 +3,25 @@ import Voice from 'react-native-voice';
 import { Image, TouchableOpacity, Alert } from 'react-native';
 
 import circle from '../../assets/circle.png';
-// import stop from '../../assets/stop.png';
 
 import {
-    TButton,
     Container,
     Wrappe,
     Title,
-    ViewMicrophone,
-    MergeImagens,
-    IconMicrophone,
     Time,
+    MergeImagens,
+    ViewMicrophone,
+    IconMicrophone,
     ViewStop,
     Stop,
+    TButton,
 } from './styles';
 
 export default function RecordAudio({ navigation }) {
     const [record, setRecord] = useState(false);
     const [results, setResult] = useState([]);
 
-    const [hour, setHour] = useState('00');
+    const hour = '00';
     const [minute, setMinute] = useState('00');
     const [secunds, setSecunds] = useState('00');
 
@@ -74,8 +73,8 @@ export default function RecordAudio({ navigation }) {
         setIntervalo(null);
         setMinute('00');
         setSecunds('00');
-        Alert.alert(results);
-        navigation.navigate('Hospital');
+        Alert.alert('Você disse?', result.value[0]);
+        // navigation.navigate('Hospital');
     }
 
     function onStartButtonPress() {

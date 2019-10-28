@@ -3,7 +3,7 @@ import React from 'react';
 import { Image } from 'react-native';
 import MainImage from '../../assets/home.png';
 
-import { TButton, Container, Wrappe, Title } from './styles';
+import { Container, Wrappe, Title, TButton } from './styles';
 
 export default function Main({ navigation }) {
     return (

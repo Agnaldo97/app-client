@@ -40,7 +40,7 @@ export const HostipalDescription = styled.Text.attrs({
     color: #808080;
     margin-top: 5px;
     line-height: 18px;
-    max-width: 92%;
+    max-width: 90%;
 `;
 
 export const Phone = styled.Text`
