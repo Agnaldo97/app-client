@@ -5,6 +5,7 @@ import AudioInformation from './pages/AudioInformation';
 import CPF from './pages/CPF';
 import RecordAudio from './pages/RecordAudio';
 import Hospital from './pages/Hospital';
+import Maps from './pages/Maps';
 
 const Routes = createAppContainer(
     createSwitchNavigator(
@@ -14,6 +15,7 @@ const Routes = createAppContainer(
             CPF,
             RecordAudio,
             Hospital,
+            Maps,
         },
         {
             headerLayoutPreset: 'center',

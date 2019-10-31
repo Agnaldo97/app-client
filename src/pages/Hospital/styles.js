@@ -5,6 +5,9 @@ import { Background } from '../../components/Background';
 
 export const Container = styled(Background)`
     padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `;
 
 export const Title = styled.Text`
@@ -14,7 +17,7 @@ export const Title = styled.Text`
     margin-bottom: 10px;
 `;
 
-export const Hospital = styled.View``;
+export const VHospital = styled.View``;
 
 export const ListHospital = styled.TouchableOpacity`
     display: flex;

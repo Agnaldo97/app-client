@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, ActivityIndicator } from 'react-native';
 
 import api from '../../services/api';
 
 import {
     Container,
     Title,
-    Hospital,
+    VHospital,
     HostipalTitle,
     HostipalDescription,
     Phone,
@@ -15,13 +15,15 @@ import {
     ViewHospital,
 } from './styles';
 
-export default function Main() {
-    const [data, setData] = useState([1]);
+export default function Hospital({ navigation }) {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function getHospital() {
             const response = await api.get('private/hospital');
             setData(response.data);
+            setLoading(false);
         }
 
         getHospital();
@@ -29,8 +31,12 @@ export default function Main() {
 
     function renderHospital({ item }) {
         return (
-            <Hospital key={Number(item.id)}>
-                <ListHospital>
+            <VHospital key={Number(item.id)}>
+                <ListHospital
+                    onPress={() => {
+                        navigation.navigate('Maps');
+                    }}
+                >
                     <IconHospital name="local-hospital" size={50} />
                     <ViewHospital>
                         <HostipalTitle>{item.name}</HostipalTitle>
@@ -40,21 +46,29 @@ export default function Main() {
                         <Phone>{item.phone}</Phone>
                     </ViewHospital>
                 </ListHospital>
-            </Hospital>
+            </VHospital>
         );
     }
 
     return (
         <Container>
-            <Title>Clique no hospital que deseja enviar sua solicitação</Title>
-            <FlatList
-                vertical
-                data={data}
-                // extraData={amount}
-                keyExtractor={item => String(item.id)}
-                renderItem={renderHospital}
-                showsVerticalScrollIndicator={false}
-            />
+            {loading ? (
+                <ActivityIndicator size="large" />
+            ) : (
+                <>
+                    <Title>
+                        Clique no hospital que deseja enviar sua solicitação
+                    </Title>
+                    <FlatList
+                        vertical
+                        data={data}
+                        // extraData={amount}
+                        keyExtractor={item => String(item.id)}
+                        renderItem={renderHospital}
+                        showsVerticalScrollIndicator={false}
+                    />
+                </>
+            )}
         </Container>
     );
 }
