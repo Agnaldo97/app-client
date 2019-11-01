@@ -1,30 +1,112 @@
-import React, { useState, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
-import MapView from 'react-native-maps';
+import React from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
+import MapView, { ProviderPropType } from 'react-native-maps';
+import MyLocationMapMarker from './MyLocationMapMarker';
 
-import { ViewMap } from './styles';
-// AIzaSyBqyGKkzID2rYi7n5oFOoe4HLILIkiezBA
+const { width, height } = Dimensions.get('window');
 
-export default function Maps() {
-    const [loading, setLoading] = useState(false);
-    const [coordinates, setCoordinates] = useState({
-        latitude: 37.78825,
-        longitude: -122.4324,
-    });
+const ASPECT_RATIO = width / height;
+const LATITUDE = 37.78825;
+const LONGITUDE = -122.4324;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+class Maps extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      region: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
+      coordinate: {
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+      },
+      amount: 0,
+      enableHack: false,
+    };
+  }
+
+  increment() {
+    this.setState({ amount: this.state.amount + 10 });
+  }
+
+  decrement() {
+    this.setState({ amount: this.state.amount - 10 });
+  }
+
+  toggleHack() {
+    this.setState({ enableHack: !this.state.enableHack });
+  }
+
+  render() {
     return (
-        <ViewMap>
-            {loading ? (
-                <ActivityIndicator size="large" />
-            ) : (
-                <MapView
-                    initialRegion={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.0068,
-                        longitudeDelta: 0.0068,
-                    }}
-                />
-            )}
-        </ViewMap>
+      <View style={styles.container}>
+        <MapView
+          provider={this.props.provider}
+          style={styles.map}
+          initialRegion={this.state.region}
+        >
+          <MyLocationMapMarker
+            coordinate={this.state.coordinate}
+            heading={this.state.amount}
+            enableHack={this.state.enableHack}
+          />
+        </MapView>
+      </View>
     );
+  }
 }
+
+Maps.propTypes = {
+  provider: ProviderPropType,
+};
+
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  bubble: {
+    backgroundColor: 'rgba(255,255,255,0.7)',
+    paddingHorizontal: 18,
+    paddingVertical: 12,
+    borderRadius: 20,
+  },
+  latlng: {
+    width: 200,
+    alignItems: 'stretch',
+  },
+  button: {
+    width: 80,
+    paddingHorizontal: 12,
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  hackButton: {
+    width: 200,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginVertical: 20,
+    backgroundColor: 'transparent',
+  },
+  toggleHack: { fontSize: 12, fontWeight: 'bold' },
+  ammountButton: { fontSize: 20, fontWeight: 'bold' },
+});
+
+export default Maps;

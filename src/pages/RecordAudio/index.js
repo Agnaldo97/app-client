@@ -118,16 +118,16 @@ export default function RecordAudio({ navigation }) {
                     <MergeImagens>
                         <ViewMicrophone>
                             {record ? (
-                                <IconMicrophone
-                                    name="keyboard-voice"
-                                    size={100}
-                                />
+                                <>
+                                    <ViewStop>
+                                        <Stop />
+                                    </ViewStop>
+                                </>
                             ) : (
-                                    <>
-                                        <ViewStop>
-                                            <Stop />
-                                        </ViewStop>
-                                    </>
+                                    <IconMicrophone
+                                        name="keyboard-voice"
+                                        size={100}
+                                    />
                                 )}
                         </ViewMicrophone>
                         <Image source={circle} />
