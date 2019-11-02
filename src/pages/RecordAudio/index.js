@@ -73,7 +73,7 @@ export default function RecordAudio({ navigation }) {
         setIntervalo(null);
         setMinute('00');
         setSecunds('00');
-        Alert.alert('Você disse?', results);
+        Alert.alert('Você disse?', result.value[0]);
         // navigation.navigate('Hospital');
     }
 
