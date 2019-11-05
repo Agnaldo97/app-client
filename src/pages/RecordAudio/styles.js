@@ -39,7 +39,9 @@ export const ViewMicrophone = styled.View`
     top: 120px;
 `;
 
-export const IconMicrophone = styled(Icon)``;
+export const IconMicrophone = styled(Icon)`
+    color: #000;
+`;
 
 export const ViewStop = styled.View`
     background: #fff;

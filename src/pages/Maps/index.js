@@ -1,12 +1,18 @@
-import React, { Component } from "react";
-import { AppRegistry, StyleSheet, Dimensions, Image, View, StatusBar, TouchableOpacity } from "react-native";
+import React, { Component } from 'react';
+import {
+    AppRegistry,
+    StyleSheet,
+    Dimensions,
+    Image,
+    View,
+    StatusBar,
+    TouchableOpacity,
+} from 'react-native';
 
 import MapView from 'react-native-maps';
 
 import Polyline from '@mapbox/polyline';
 import Geolocation from '@react-native-community/geolocation';
-
-
 
 class LocationA extends Component {
     constructor(props) {
@@ -19,95 +25,131 @@ class LocationA extends Component {
             concat: null,
             coords: [],
             x: 'false',
-            cordLatitude: -22.906770,
-            cordLongitude: -43.220830,
+            cordLatitude: -22.90677,
+            cordLongitude: -43.22083,
         };
 
         this.mergeLot = this.mergeLot.bind(this);
-
     }
 
     componentDidMount() {
-        Geolocation.getCurrentPosition((position) => {
-            console.log('tt')
-            this.setState({
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                error: null,
-            });
-            this.mergeLot();
-        },
-            (error) => this.setState({ error: error.message }),
-            { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 });
+        Geolocation.getCurrentPosition(
+            position => {
+                console.log('tt');
+                this.setState({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                    error: null,
+                });
+                this.mergeLot();
+            },
+            error => this.setState({ error: error.message }),
+            { enableHighAccuracy: false, timeout: 200000, maximumAge: 1000 }
+        );
     }
 
     mergeLot() {
-        if (this.state.latitude != null && this.state.longitude != null) {
-            let concatLot = this.state.latitude + "," + this.state.longitude
-            this.setState({
-                concat: concatLot
-            }, () => {
-                this.getDirections(concatLot, "-6.270565,106.759550");
-            });
+        if (this.state.latitude !== null && this.state.longitude !== null) {
+            const concatLot = `${this.state.latitude},${this.state.longitude}`;
+            this.setState(
+                {
+                    concat: concatLot,
+                },
+                () => {
+                    this.getDirections(concatLot, '-6.270565,106.759550');
+                }
+            );
         }
-
     }
 
     async getDirections(startLoc, destinationLoc) {
-
         try {
-            let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}`)
-            let respJson = await resp.json();
-            let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
-            let coords = points.map((point, index) => {
+            const resp = await fetch(
+                `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}`
+            );
+            console.tron.log(resp);
+            const respJson = await resp.json();
+            const points = Polyline.decode(
+                respJson.routes[0].overview_polyline.points
+            );
+            const coords = points.map((point, index) => {
                 return {
                     latitude: point[0],
-                    longitude: point[1]
-                }
-            })
-            this.setState({ coords: coords })
-            this.setState({ x: "true" })
-            return coords
+                    longitude: point[1],
+                };
+            });
+
+            console.tron.log(coords);
+
+            this.setState({ coords });
+            this.setState({ x: 'true' });
+            return coords;
         } catch (error) {
-            console.log('masuk fungsi')
-            this.setState({ x: "error" })
-            return error
+            console.log('masuk fungsi');
+            this.setState({ x: 'error' });
+            return error;
         }
     }
+
     render() {
-
         return (
-            <MapView style={styles.map} initialRegion={{
-                latitude: -22.906770,
-                longitude: -43.220830,
-                latitudeDelta: 1,
-                longitudeDelta: 1
-            }}>
+            <MapView
+                style={styles.map}
+                initialRegion={{
+                    latitude: -22.90677,
+                    longitude: -43.22083,
+                    latitudeDelta: 1,
+                    longitudeDelta: 1,
+                }}
+            >
+                {!!this.state.latitude && !!this.state.longitude && (
+                    <MapView.Marker
+                        coordinate={{
+                            latitude: this.state.latitude,
+                            longitude: this.state.longitude,
+                        }}
+                        title="Your Location"
+                    />
+                )}
 
-                {!!this.state.latitude && !!this.state.longitude && <MapView.Marker
-                    coordinate={{ "latitude": this.state.latitude, "longitude": this.state.longitude }}
-                    title={"Your Location"}
-                />}
+                {!!this.state.cordLatitude && !!this.state.cordLongitude && (
+                    <MapView.Marker
+                        coordinate={{
+                            latitude: this.state.cordLatitude,
+                            longitude: this.state.cordLongitude,
+                        }}
+                        title="Your Destination"
+                    />
+                )}
 
-                {!!this.state.cordLatitude && !!this.state.cordLongitude && <MapView.Marker
-                    coordinate={{ "latitude": this.state.cordLatitude, "longitude": this.state.cordLongitude }}
-                    title={"Your Destination"}
-                />}
+                {!!this.state.latitude &&
+                    !!this.state.longitude &&
+                    this.state.x == 'true' && (
+                        <MapView.Polyline
+                            coordinates={this.state.coords}
+                            strokeWidth={2}
+                            strokeColor="red"
+                        />
+                    )}
 
-                {!!this.state.latitude && !!this.state.longitude && this.state.x == 'true' && <MapView.Polyline
-                    coordinates={this.state.coords}
-                    strokeWidth={2}
-                    strokeColor="red" />
-                }
-
-                {!!this.state.latitude && !!this.state.longitude && this.state.x == 'error' && <MapView.Polyline
-                    coordinates={[
-                        { latitude: this.state.latitude, longitude: this.state.longitude },
-                        { latitude: this.state.cordLatitude, longitude: this.state.cordLongitude },
-                    ]}
-                    strokeWidth={2}
-                    strokeColor="red" />
-                }
+                {!!this.state.latitude &&
+                    !!this.state.longitude &&
+                    this.state.x == 'error' && (
+                        <MapView.Polyline
+                            coordinates={[
+                                {
+                                    latitude: this.state.latitude,
+                                    longitude: this.state.longitude,
+                                },
+                                {
+                                    latitude: this.state.cordLatitude,
+                                    longitude: this.state.cordLongitude,
+                                },
+                            ]}
+                            strokeWidth={2}
+                            strokeColor="red"
+                        />
+                    )}
             </MapView>
         );
     }

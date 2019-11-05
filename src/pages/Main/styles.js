@@ -20,3 +20,15 @@ export const TButton = styled(Button)`
     width: 100%;
     margin-bottom: 40px;
 `;
+
+export const ButtonSkipIntroduction = styled.TouchableOpacity`
+    display: flex;
+    flex-direction: row;
+    align-self: flex-end;
+`;
+
+export const SkipIntroduction = styled.Text`
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+`;
