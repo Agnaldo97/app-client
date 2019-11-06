@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Voice from 'react-native-voice';
 import { Image, TouchableOpacity, Alert } from 'react-native';
-
+import AsyncStorage from '@react-native-community/async-storage';
 import circle from '../../assets/circle.png';
+import api from '../../services/api';
 
 import {
     Container,
@@ -67,13 +68,33 @@ export default function RecordAudio({ navigation }) {
         }
     }, intervalo);
 
-    function onSpeechResultsHandler(result) {
+    async function onSpeechResultsHandler(result) {
         setResult(result.value);
         setRecord(false);
         setIntervalo(null);
         setMinute('00');
         setSecunds('00');
-        Alert.alert('Você disse?', result.value[0]);
+        const patient = JSON.parse(await AsyncStorage.getItem('patient:key'))
+        Alert.alert(
+            'Você disse?', result.value[0],
+            [
+                {
+                    text: 'Não',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                },
+                {
+                    text: 'Sim', onPress: () =>
+                        api.put(`private/attendance/infos/${patient.cpf}`,
+                            {
+                                description: result.value[0]
+                            }).then(() => {
+                                navigation.navigate('Hospital');
+                            }).catch((err) => {
+                                Alert.alert('Teste');
+                            })
+                },
+            ])
         // navigation.navigate('Hospital');
     }
 

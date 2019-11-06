@@ -8,6 +8,7 @@ import CPF from './pages/CPF';
 import Historic from './pages/Historic';
 import RecordAudio from './pages/RecordAudio';
 import Hospital from './pages/Hospital';
+import QRCodePage from './pages/QRCodePage';
 import Maps from './pages/Maps';
 import ButtonsPage from './pages/ButtonsPage';
 import QRCodeScreen from './pages/QRCodeScreen';
@@ -50,6 +51,7 @@ const Routes = createAppContainer(
             RecordAudio,
             Hospital,
             Maps,
+            QRCodePage
         },
         {
             headerLayoutPreset: 'center',

@@ -11,4 +11,6 @@ export const ViewMap = styled(Background)`
     justify-content: center;
 `;
 
-export const Map = styled(MapView)``;
+export const Map = styled(MapView)`
+    flex: 1;
+`;

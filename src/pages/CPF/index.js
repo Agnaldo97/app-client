@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import qrcode from '../../assets/qr-code.png';
 
-// import AsyncStorage from '@react-native-community/async-storage';
 import api from '../../services/api';
 import {
     Container,
@@ -21,24 +21,74 @@ export default function Cpf({ navigation }) {
     function handleSubmit() {
         api.get(`public/patient/${cpf}`)
             .then(response => {
+                AsyncStorage.setItem(
+                    'patient:key',
+                    JSON.stringify(response.data.patient)
+                );
+                AsyncStorage.setItem(
+                    'ccess-token:key',
+                    response.data.patient.accessToken
+                );
+                navigation.navigate('RecordAudio');
                 setHistoric(response.data.patient.historics);
                 console.tron.log(historic);
-                // AsyncStorage.setItem(
-                //     'patient:key',
-                //     JSON.stringify(response.data.patient)
-                // );
-                // AsyncStorage.setItem(
-                //     'access-token',
-                //     JSON.stringify(response.data.patient.accessToken)
-                // );
-                // console.tron.log(AsyncStorage.getItem());
-                // console.tron.log(AsyncStorage.getItem('access-token:key'));
-                navigation.navigate('ButtonsPage');
             })
             .catch(err => {
-                // Alert.alert('CPF inválido ou já em uso');
+                if (
+                    err.response.data.error_description ===
+                    'Is not possible more one attendance'
+                ) {
+                    Alert.alert(
+                        'Já existe um atendimento',
+                        'em andamento com esse CPF. Deseja começar um novo?',
+                        [
+                            {
+                                text: 'Não',
+                                onPress: () => console.log('Cancel Pressed'),
+                                style: 'cancel',
+                            },
+                            {
+                                text: 'Sim',
+                                onPress: () =>
+                                    api
+                                        .delete(`private/attendance/${cpf}`)
+                                        .then(() => {
+                                            api.get(`public/patient/${cpf}`)
+                                                .then(response => {
+                                                    AsyncStorage.setItem(
+                                                        'patient:key',
+                                                        JSON.stringify(
+                                                            response.data
+                                                                .patient
+                                                        )
+                                                    );
+                                                    AsyncStorage.setItem(
+                                                        'ccess-token:key',
+                                                        response.data.patient
+                                                            .accessToken
+                                                    );
+                                                    navigation.navigate(
+                                                        'RecordAudio'
+                                                    );
+                                                })
+                                                .then(() => {
+                                                    navigation.navigate(
+                                                        'RecordAudio'
+                                                    );
+                                                });
+                                        })
+                                        .catch(err => {
+                                            Alert.alert(
+                                                'Erro ao encerrar o atendimento'
+                                            );
+                                        }),
+                            },
+                        ]
+                    );
+                } else {
+                    Alert.alert('CPF não localizado');
+                }
             });
-        navigation.navigate('ButtonsPage');
     }
 
     return (
