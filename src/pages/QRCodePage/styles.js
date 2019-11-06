@@ -2,29 +2,23 @@ import styled from 'styled-components/native';
 import Button from '../../components/Button';
 
 export const Container = styled.View`
-    padding: 15px;
+    padding: 15px 10px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 `;
 export const ContainerQRCode = styled.View`
-    padding: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    padding: 10px;
+    background: #fff;
 `;
-export const QRCode = styled.View`
-    margin: 20px
-`;
+export const QRCode = styled.View``;
 
 export const Title = styled.Text`
-    margin-top: 10px;
-    color: black;
-    font-size: 25px;
-    margin-bottom: 10px;
+    font-size: 28px;
+    color: #fff;
 `;
 
 export const TButton = styled(Button)`
     width: 100%;
-    margin-bottom: 80px;
+    margin-bottom: 40px;
 `;
