@@ -13,7 +13,7 @@ export const Wrappe = styled.View`
 
 export const Title = styled.Text`
     font-size: 28px;
-    color: #fff;
+    /* color: #fff; */
 `;
 
 export const TButton = styled(Button)`
@@ -28,7 +28,7 @@ export const ButtonSkipIntroduction = styled.TouchableOpacity`
 `;
 
 export const SkipIntroduction = styled.Text`
-    color: #fff;
+    /* color: #fff; */
     font-size: 16px;
     font-weight: bold;
 `;
