@@ -14,7 +14,7 @@ export const Wrappe = styled.View`
 export const Title = styled.Text`
     font-size: 28px;
     color: #fff;
-    margin-top: 10%;
+    /* margin-top: 5%; */
     margin-bottom: 8px;
 `;
 
@@ -24,7 +24,7 @@ export const InputCpf = styled.TextInput`
     font-size: 20px;
     width: 100%;
     border-radius: 4px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 `;
 
 export const TButton = styled(Button)`
@@ -32,7 +32,9 @@ export const TButton = styled(Button)`
     margin-bottom: 40px;
 `;
 
-export const ButtonQrcode = styled.TouchableOpacity``;
+export const ButtonQrcode = styled.TouchableOpacity`
+    padding: 10px 0 10px 0;
+`;
 
 export const ImageQRcode = styled.Image`
     background: #fff;

@@ -20,7 +20,7 @@
       android:theme="@style/AppTheme">
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyBX-bO-GN-mL7t6bbLG0zNKTsD6r2q9i7o"/>
+        android:value="AIzaSyCrFjKi6by7gdmNtA3oX7MMCq1wQfYQfdw"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"

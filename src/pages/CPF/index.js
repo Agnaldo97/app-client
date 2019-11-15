@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import qrcode from '../../assets/qr-code.png';
+import * as HistoricActions from '../../store/modules/historic/actions';
 
 import api from '../../services/api';
 import {
@@ -17,6 +20,35 @@ import {
 export default function Cpf({ navigation }) {
     const [cpf, setCpf] = useState('');
     const [historic, setHistoric] = useState([]);
+    const dispatch = useDispatch();
+
+    function newSession() {
+        api.delete(`private/attendance/${cpf}`)
+            .then(() => {
+                api.get(`public/patient/${cpf}`)
+                    .then(response => {
+                        AsyncStorage.setItem(
+                            'patient:key',
+                            JSON.stringify(response.data.patient)
+                        );
+                        AsyncStorage.setItem(
+                            'ccess-token:key',
+                            response.data.patient.accessToken
+                        );
+                        dispatch(
+                            HistoricActions.addToHistoricRequest(
+                                response.data.patient
+                            )
+                        );
+                    })
+                    .then(() => {
+                        navigation.navigate('TopNavigation');
+                    });
+            })
+            .catch(err => {
+                Alert.alert('Erro ao encerrar o atendimento');
+            });
+    }
 
     function handleSubmit() {
         api.get(`public/patient/${cpf}`)
@@ -29,7 +61,7 @@ export default function Cpf({ navigation }) {
                     'ccess-token:key',
                     response.data.patient.accessToken
                 );
-                navigation.navigate('RecordAudio');
+                navigation.navigate('TopNavigation');
                 setHistoric(response.data.patient.historics);
                 console.tron.log(historic);
             })
@@ -44,44 +76,11 @@ export default function Cpf({ navigation }) {
                         [
                             {
                                 text: 'Não',
-                                onPress: () => console.log('Cancel Pressed'),
-                                style: 'cancel',
+                                // style: 'cancel',
                             },
                             {
                                 text: 'Sim',
-                                onPress: () =>
-                                    api
-                                        .delete(`private/attendance/${cpf}`)
-                                        .then(() => {
-                                            api.get(`public/patient/${cpf}`)
-                                                .then(response => {
-                                                    AsyncStorage.setItem(
-                                                        'patient:key',
-                                                        JSON.stringify(
-                                                            response.data
-                                                                .patient
-                                                        )
-                                                    );
-                                                    AsyncStorage.setItem(
-                                                        'ccess-token:key',
-                                                        response.data.patient
-                                                            .accessToken
-                                                    );
-                                                    navigation.navigate(
-                                                        'RecordAudio'
-                                                    );
-                                                })
-                                                .then(() => {
-                                                    navigation.navigate(
-                                                        'RecordAudio'
-                                                    );
-                                                });
-                                        })
-                                        .catch(err => {
-                                            Alert.alert(
-                                                'Erro ao encerrar o atendimento'
-                                            );
-                                        }),
+                                onPress: () => newSession(),
                             },
                         ]
                     );
@@ -117,7 +116,3 @@ export default function Cpf({ navigation }) {
         </Container>
     );
 }
-
-Cpf.navigationOptions = {
-    headerTitle: 'Meu perfil',
-};

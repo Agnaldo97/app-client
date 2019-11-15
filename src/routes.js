@@ -9,7 +9,7 @@ import Historic from './pages/Historic';
 import RecordAudio from './pages/RecordAudio';
 import Hospital from './pages/Hospital';
 import QRCodePage from './pages/QRCodePage';
-import Maps from './pages/Maps';
+import Geolocation from './pages/Geolocation';
 import ButtonsPage from './pages/ButtonsPage';
 import QRCodeScreen from './pages/QRCodeScreen';
 
@@ -50,8 +50,8 @@ const Routes = createAppContainer(
             TopNavigation,
             RecordAudio,
             Hospital,
-            Maps,
-            QRCodePage
+            Geolocation,
+            QRCodePage,
         },
         {
             headerLayoutPreset: 'center',

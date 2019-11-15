@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, ActivityIndicator } from 'react-native';
+import { useDispatch } from 'react-redux';
+
+import * as HospitalActions from '../../store/modules/hospital/action';
 
 import api from '../../services/api';
 
@@ -18,6 +21,7 @@ import {
 export default function Hospital({ navigation }) {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         async function getHospital() {
@@ -29,12 +33,17 @@ export default function Hospital({ navigation }) {
         getHospital();
     }, []);
 
+    function handleLocation(item) {
+        dispatch(HospitalActions.addToHistoricRequest(item));
+        navigation.navigate('Geolocation');
+    }
+
     function renderHospital({ item }) {
         return (
             <VHospital key={Number(item.id)}>
                 <ListHospital
                     onPress={() => {
-                        navigation.navigate('Maps');
+                        handleLocation(item);
                     }}
                 >
                     <IconHospital name="local-hospital" size={50} />

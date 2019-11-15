@@ -26,6 +26,7 @@ export const ListHospital = styled.TouchableOpacity`
     background: #fff;
     margin-bottom: 20px;
     border-radius: 4px;
+    width: 98%;
 `;
 
 export const ViewHospital = styled.View``;
@@ -43,7 +44,7 @@ export const HostipalDescription = styled.Text.attrs({
     color: #808080;
     margin-top: 5px;
     line-height: 18px;
-    max-width: 90%;
+    max-width: 88%;
 `;
 
 export const Phone = styled.Text`
