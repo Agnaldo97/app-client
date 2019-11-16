@@ -1,26 +1,46 @@
 import React from 'react';
-// import { View } from 'react-native';
 
+import { Image } from 'react-native';
 import {
     Container,
     TypeTitle,
     TypeDescription,
-    // TypeImage,
     ViewD,
-    // RequestButtonText,
+    RequestButton,
+    RequestButtonText,
+    ButtonBack,
+    ImageBach,
 } from './styles';
+import back from '../../../assets/back.png';
 
-export default function Details() {
+export default function Details({ destination, duration, navigation }) {
     return (
-        <Container>
-            <ViewD>
-                <TypeTitle>Destino: </TypeTitle>
-                <TypeDescription>Viagens baratas</TypeDescription>
-            </ViewD>
-            <ViewD>
-                <TypeTitle>Duração: </TypeTitle>
-                <TypeDescription>60 minutos</TypeDescription>
-            </ViewD>
-        </Container>
+        <>
+            <ButtonBack
+                onPress={() => {
+                    navigation.navigate('Hospital');
+                }}
+            >
+                <ImageBach source={back} />
+            </ButtonBack>
+            <Container>
+                <ViewD>
+                    <TypeTitle>Destino: </TypeTitle>
+                    <TypeDescription>{destination}</TypeDescription>
+                </ViewD>
+                <ViewD>
+                    <TypeTitle>Tempo estimado: </TypeTitle>
+                    <TypeDescription>{`${duration} Minutos`}</TypeDescription>
+                </ViewD>
+
+                <RequestButton
+                    onPress={() => {
+                        navigation.navigate('QRCodePage');
+                    }}
+                >
+                    <RequestButtonText>Avançar</RequestButtonText>
+                </RequestButton>
+            </Container>
+        </>
     );
 }

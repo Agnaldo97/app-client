@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { useSelector } from 'react-redux';
 
 import {
@@ -36,7 +36,7 @@ export default function Historic() {
     function renderHistoric({ item }) {
         setLoading(false);
         return (
-            <VHistoric key={Number(item.idAttendance)}>
+            <VHistoric key={Number(item.id)}>
                 <ViewInfo>
                     <HostipalTitle>Hospital Rios DOr</HostipalTitle>
 

@@ -2,7 +2,7 @@ import styled from 'styled-components/native';
 
 export const Container = styled.View`
     background: #fff;
-    height: 100px;
+    height: 150px;
     width: 100%;
     position: absolute;
     bottom: 0;
@@ -12,12 +12,11 @@ export const Container = styled.View`
     shadow-radius: 10;
     elevation: 3;
     border: 1px solid #ddd;
-    align-items: center;
     padding: 20px;
 `;
 
 export const TypeTitle = styled.Text`
-    font-size: 20px;
+    font-size: 18px;
     color: #222;
 `;
 
@@ -43,8 +42,23 @@ export const RequestButtonText = styled.Text`
 
 export const ViewD = styled.View`
     flex-direction: row;
-    /* display: flex; */
     align-items: center;
-    align-self: center;
     justify-content: flex-start;
+`;
+
+export const ButtonBack = styled.TouchableOpacity`
+    position: absolute;
+    margin-top: 40px;
+    margin-left: 40px;
+    background: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    flex: 1;
+    justify-content: center;
+`;
+
+export const ImageBach = styled.Image`
+    width: 35px;
+    align-self: center;
 `;

@@ -74,27 +74,28 @@ export default function RecordAudio({ navigation }) {
         setIntervalo(null);
         setMinute('00');
         setSecunds('00');
-        const patient = JSON.parse(await AsyncStorage.getItem('patient:key'))
-        Alert.alert(
-            'Você disse?', result.value[0],
-            [
-                {
-                    text: 'Não',
-                    onPress: () => console.log('Cancel Pressed'),
-                    style: 'cancel',
-                },
-                {
-                    text: 'Sim', onPress: () =>
-                        api.put(`private/attendance/infos/${patient.cpf}`,
-                            {
-                                description: result.value[0]
-                            }).then(() => {
-                                navigation.navigate('Hospital');
-                            }).catch((err) => {
-                                Alert.alert('Teste');
-                            })
-                },
-            ])
+        const patient = JSON.parse(await AsyncStorage.getItem('patient:key'));
+        Alert.alert('Você disse?', result.value[0], [
+            {
+                text: 'Não',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+            },
+            {
+                text: 'Sim',
+                onPress: () =>
+                    api
+                        .put(`private/attendance/infos/${patient.cpf}`, {
+                            description: result.value[0],
+                        })
+                        .then(() => {
+                            navigation.navigate('Hospital');
+                        })
+                        .catch(err => {
+                            Alert.alert('Teste');
+                        }),
+            },
+        ]);
         // navigation.navigate('Hospital');
     }
 
@@ -145,11 +146,11 @@ export default function RecordAudio({ navigation }) {
                                     </ViewStop>
                                 </>
                             ) : (
-                                    <IconMicrophone
-                                        name="keyboard-voice"
-                                        size={100}
-                                    />
-                                )}
+                                <IconMicrophone
+                                    name="keyboard-voice"
+                                    size={100}
+                                />
+                            )}
                         </ViewMicrophone>
                         <Image source={circle} />
                     </MergeImagens>

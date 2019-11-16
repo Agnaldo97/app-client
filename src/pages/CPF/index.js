@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { ActivityIndicator } from 'react-native';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
 
 import AsyncStorage from '@react-native-community/async-storage';
@@ -69,10 +68,8 @@ export default function Cpf({ navigation }) {
                 );
                 navigation.navigate('TopNavigation');
                 setHistoric(response.data.patient.historics);
-                console.tron.log(historic);
             })
             .catch(err => {
-                console.tron.log(err.response.data.error_description);
                 if (err.response.data.error_description !== 'Bad credentials') {
                     setMessageText(
                         'Já existe um atendimento em andamento com esse CPF. Deseja começar um novo?'

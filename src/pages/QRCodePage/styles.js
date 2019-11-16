@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import Button from '../../components/Button';
 
 export const Container = styled.View`
+    flex: 1;
     padding: 15px 10px;
     display: flex;
     align-items: center;

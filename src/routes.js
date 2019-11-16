@@ -12,6 +12,7 @@ import QRCodePage from './pages/QRCodePage';
 import Geolocation from './pages/Geolocation';
 import ButtonsPage from './pages/ButtonsPage';
 import QRCodeScreen from './pages/QRCodeScreen';
+import Details from './pages/Geolocation/Details';
 
 const TopNavigation = createMaterialTopTabNavigator(
     {
@@ -52,6 +53,7 @@ const Routes = createAppContainer(
             Hospital,
             Geolocation,
             QRCodePage,
+            Details,
         },
         {
             headerLayoutPreset: 'center',

@@ -1,6 +1,6 @@
 import React from 'react';
 import Map from './Map';
 
-export default function GeolocationMaps() {
-    return <Map />;
+export default function GeolocationMaps({ navigation }) {
+    return <Map navigation={navigation} />;
 }

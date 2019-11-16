@@ -29,7 +29,7 @@ export default function QRCodePage({ navigation }) {
                     logoBackgroundColor="yellow"
                 />
             </ContainerQRCode>
-            <TButton onPress={() => navigation.navigate('Maps')}>
+            <TButton onPress={() => navigation.navigate('Geolocation')}>
                 VOLTAR
             </TButton>
         </Container>

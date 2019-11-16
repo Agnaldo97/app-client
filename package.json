@@ -7,7 +7,8 @@
         "ios": "react-native run-ios",
         "start": "react-native start",
         "test": "jest",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "postinstall": "jetify"
     },
     "dependencies": {
         "@mapbox/polyline": "^1.1.0",
@@ -65,6 +66,7 @@
         "eslint-plugin-react": "^7.16.0",
         "eslint-plugin-react-hooks": "^1.7.0",
         "jest": "^24.9.0",
+        "jetifier": "^1.6.4",
         "json-server": "^0.15.1",
         "metro-react-native-babel-preset": "^0.56.3",
         "prettier": "^1.18.2",

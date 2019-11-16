@@ -34,7 +34,9 @@ export default function Hospital({ navigation }) {
     }, []);
 
     function handleLocation(item) {
-        dispatch(HospitalActions.addToHistoricRequest(item));
+        dispatch(
+            HospitalActions.addToHistoricRequest(item, (item.selected = true))
+        );
         navigation.navigate('Geolocation');
     }
 

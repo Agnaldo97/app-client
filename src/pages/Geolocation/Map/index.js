@@ -5,33 +5,24 @@ import { Marker } from 'react-native-maps';
 
 import Geocoder from 'react-native-geocoding';
 import Geolocation from '@react-native-community/geolocation';
-import { getPixelSize } from '../utils';
 import Search from '../Search';
 import Directions from '../Directions';
 import Details from '../Details';
 
 import markerImage from '../../../assets/marker.png';
-import {
-    Map,
-    ViewMap,
-    LocationBox,
-    LocationText,
-    LocationTimeBox,
-    LocationTimeText,
-    LocationTimeMin,
-} from './styles';
+import { Map, ViewMap, LocationBox, LocationText } from './styles';
 
 Geocoder.init('AIzaSyCrFjKi6by7gdmNtA3oX7MMCq1wQfYQfdw');
 
 export default function Maps({ navigation }) {
     const [coordinates, setCoordinates] = useState({});
     const [destination, setDestination] = useState(null);
-    const [duration, setduration] = useState({});
+    const [duration, setduration] = useState(null);
     const [location, setLocation] = useState(null);
+    const hospital = useSelector(state => state.hospital);
+    const { name, lat, long } = hospital[0];
 
     const mapViewRef = useRef(null);
-
-    // const hospital = useSelector(state => state.hospital);
 
     async function getMyLocation(latitude, longitude) {
         const response = await Geocoder.from({ latitude, longitude });
@@ -40,12 +31,11 @@ export default function Maps({ navigation }) {
     }
 
     useEffect(() => {
-        async function getGeolation() {
+        function getGeolation() {
             Geolocation.getCurrentPosition(
                 ({ coords: { latitude, longitude } }) => {
                     const myLocation = getMyLocation(latitude, longitude);
                     setLocation(myLocation);
-
                     setCoordinates({
                         region: {
                             latitude,
@@ -55,7 +45,7 @@ export default function Maps({ navigation }) {
                         },
                     });
                 }, // success
-                () => { }, // error
+                () => {}, // error
                 {
                     timeout: 2000,
                     enableHighAccuracy: true,
@@ -84,6 +74,16 @@ export default function Maps({ navigation }) {
         });
     }
 
+    useEffect(() => {
+        setDestination({
+            destination: {
+                latitude: parseFloat(lat),
+                longitude: parseFloat(long),
+                title: name,
+            },
+        });
+    }, [lat, long, name]);
+
     return (
         <ViewMap>
             <StatusBar
@@ -103,9 +103,8 @@ export default function Maps({ navigation }) {
                             origin={coordinates.region}
                             destination={destination.destination}
                             onReady={result => {
-                                setduration({
-                                    duration: Math.floor(result.duration),
-                                });
+                                setduration(Math.floor(result.duration));
+
                                 mapViewRef.current.fitToCoordinates(
                                     result.coordinates,
                                     {
@@ -150,10 +149,14 @@ export default function Maps({ navigation }) {
             </Map>
 
             {destination ? (
-                <Details />
+                <Details
+                    destination={destination.destination.title}
+                    duration={duration}
+                    navigation={navigation}
+                />
             ) : (
-                    <Search onLocationSelected={handleLocationSelected} />
-                )}
+                <Search onLocationSelected={handleLocationSelected} />
+            )}
         </ViewMap>
     );
 }

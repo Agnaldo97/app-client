@@ -5,8 +5,7 @@ export default function hospital(state = [], action) {
         case '@hospital/ADD_HOSPITAL':
             return produce(state, draft => {
                 const { hospital } = action;
-
-                if (state.length > 0) {
+                if (draft.length > 0) {
                     draft.splice(1, 0);
                     draft.push(hospital);
                     return;
