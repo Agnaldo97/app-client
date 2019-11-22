@@ -7,6 +7,8 @@ import './config/ReactotronConfig';
 
 import store from './store';
 
+console.disableYellowBox = true;
+
 export default function App() {
     return (
         <Provider store={store}>
