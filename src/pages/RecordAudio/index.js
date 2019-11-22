@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Voice from 'react-native-voice';
 import { Image, TouchableOpacity, Alert } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { ConfirmDialog } from 'react-native-simple-dialogs';
 import circle from '../../assets/circle.png';
 import api from '../../services/api';
 
@@ -21,6 +22,8 @@ import {
 export default function RecordAudio({ navigation }) {
     const [record, setRecord] = useState(false);
     const [results, setResult] = useState([]);
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [messageText, setMessageText] = useState('');
 
     const hour = '00';
     const [minute, setMinute] = useState('00');
@@ -68,35 +71,28 @@ export default function RecordAudio({ navigation }) {
         }
     }, intervalo);
 
-    async function onSpeechResultsHandler(result) {
-        setResult(result.value);
+    function onSpeechResultsHandler(result) {
+        setResult(`${result.value[0]}`);
         setRecord(false);
         setIntervalo(null);
         setMinute('00');
         setSecunds('00');
+        setDialogVisible(true);
+        setMessageText(`${result.value[0]}`);
+    }
+
+    async function handleRecord() {
+        console.tron.log(results);
         const patient = JSON.parse(await AsyncStorage.getItem('patient:key'));
-        Alert.alert('Você disse?', result.value[0], [
-            {
-                text: 'Não',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-            },
-            {
-                text: 'Sim',
-                onPress: () =>
-                    api
-                        .put(`private/attendance/infos/${patient.cpf}`, {
-                            description: result.value[0],
-                        })
-                        .then(() => {
-                            navigation.navigate('Hospital');
-                        })
-                        .catch(err => {
-                            Alert.alert('Teste');
-                        }),
-            },
-        ]);
-        // navigation.navigate('Hospital');
+        api.put(`private/attendance/infos/${patient.cpf}`, {
+            description: results,
+        })
+            .then(() => {
+                navigation.navigate('Hospital');
+            })
+            .catch(err => {
+                Alert.alert('Teste');
+            });
     }
 
     function onStartButtonPress() {
@@ -131,6 +127,19 @@ export default function RecordAudio({ navigation }) {
     return (
         <Container>
             <Wrappe>
+                <ConfirmDialog
+                    title="Você disse:"
+                    message={`${messageText}`}
+                    visible={dialogVisible}
+                    positiveButton={{
+                        title: 'SIM',
+                        onPress: () => handleRecord(),
+                    }}
+                    negativeButton={{
+                        title: 'NÃO',
+                        onPress: () => setDialogVisible(false),
+                    }}
+                />
                 <Title>
                     Agora, descreva para nós em poucas palavras o ocorrido.
                 </Title>

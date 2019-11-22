@@ -120,6 +120,7 @@ export default function Cpf({ navigation }) {
                     <ImageQRcode source={qrcode} />
                 </ButtonQrcode>
                 <InputCpf
+                    keyboardType="number-pad"
                     placeholder="Informe o CPF"
                     onSubmitEditing={handleSubmit}
                     values={cpf}

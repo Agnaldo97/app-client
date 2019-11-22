@@ -7,6 +7,7 @@ import './config/ReactotronConfig';
 
 import store from './store';
 
+// eslint-disable-next-line no-console
 console.disableYellowBox = true;
 
 export default function App() {

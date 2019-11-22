@@ -49,7 +49,7 @@ export const ViewD = styled.View`
 export const ButtonBack = styled.TouchableOpacity`
     position: absolute;
     margin-top: 40px;
-    margin-left: 40px;
+    margin-left: 20px;
     background: #fff;
     width: 50px;
     height: 50px;
